@@ -39,6 +39,6 @@ class OpenAIClient:
 
 client = OpenAIClient(OPENAI_HOST + "/v1/audio/transcriptions",)
 client.call(
-    model_name="gpt-4o-transcribe",  # Use whisper-1 or gpt-4o-transcribe
+    model="gpt-4o-transcribe",  # Use whisper-1 or gpt-4o-transcribe
     audio_file_path="codeus_audio.mp3"
 )
