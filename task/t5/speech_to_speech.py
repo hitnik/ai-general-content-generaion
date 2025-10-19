@@ -6,7 +6,7 @@ import requests
 
 from task.constants import OPENAI_HOST, OPENAI_API_KEY
 
-# https://platform.openai.com/docs/guides/audio?example=audio-in
+# # https://platform.openai.com/docs/guides/audio?example=audio-in#add-audio-to-your-existing-application
 
 
 class OpenAIClient:
