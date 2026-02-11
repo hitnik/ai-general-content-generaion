@@ -1,2 +1,8 @@
 requests>=2.28.0
 openai>=1.99.9
+sounddevice==0.5.5
+scipy==1.17.0
+pydub==0.25.1
+keyboard==0.13.5
+numpy==2.3.0
+aiohttp
