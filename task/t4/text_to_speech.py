@@ -1,44 +1,24 @@
-import json
-from datetime import datetime
-
-import requests
-
-from task.constants import OPENAI_HOST, OPENAI_API_KEY
-
-# https://platform.openai.com/docs/guides/text-to-speech
-# Request:
-# curl https://api.openai.com/v1/audio/speech \
-#   -H "Authorization: Bearer $OPENAI_API_KEY" \
-#   -H "Content-Type: application/json" \
-#   -d '{
-#     "model": "gpt-4o-mini-tts",
-#     "input": "Why can't we say that black is white?",
-#     "voice": "coral",
-#     "instructions": "Speak in a cheerful and positive tone."
-#   }' \
-# Response:
-#   bytes with audio
-
-#TODO:
-# You need to convert text to speech:
-#   - Create Client that will go to speech OpenAI API
-#   - Call API
-#   - Get response and save as .mp3 file
-# ---
-# Hints:
-#   - Use /v1/audio/speech endpoint
-#   - Use gpt-4o-mini-tts model
+import asyncio
+import aiohttp
 
 
-class Voice:
-    alloy: str = 'alloy'
-    ash: str = 'ash'
-    ballad: str = 'ballad'
-    coral: str = 'coral'
-    echo: str = 'echo'
-    fable: str = 'fable'
-    nova: str = 'nova'
-    onyx: str = 'onyx'
-    sage: str = 'sage'
-    shimmer: str = 'shimmer'
 
+async def text_to_speech(text: str, url: str, output_path: str = "output.wav") -> str:
+    async with aiohttp.ClientSession() as session:
+
+        data = aiohttp.FormData()
+        data.add_field("text", text)
+        async with session.post(url, data=data) as resp:
+            if resp.status == 200:
+                with open(output_path, "wb") as f:
+                    f.write(await resp.read())
+                    print(f"Audio saved to {output_path}")
+            else:
+                print(f"Error: {resp.status}")
+                print(await resp.text())
+
+
+if __name__ == "__main__":
+    url = "http://localhost:8000/v1/tts"
+    text = "easy fix to your bug is to add punctuation to the end. And classification errors of models are not counted as a bug. At least we don't. So I suggested moving it to discussions."
+    asyncio.run(text_to_speech(text, url=url, output_path="tts_output.wav"))
