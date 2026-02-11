@@ -1,2 +1,3 @@
 fastapi==0.128.7
 openai-whisper==20250625
+TTS==0.22.0
